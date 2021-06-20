@@ -12,8 +12,8 @@ public:
 	IOCPBufferList(OperationType Type);
 	~IOCPBufferList();
 
-	const IOCPBuffer *Add(uint64_t SequenceNumber, uint8_t* Buffer, size_t Size);
-	const IOCPBuffer *Add(uint64_t SequenceNumber, uint8_t* Buffer, size_t Size, IOCPBuffer::BufferDelete BufferDeleter);
+	const IOCPBuffer *Add(uint64_t SequenceNumber, uint8_t* Buffer, uint32_t Size);
+	const IOCPBuffer *Add(uint64_t SequenceNumber, uint8_t* Buffer, uint32_t Size, IOCPBuffer::BufferDelete BufferDeleter);
 
 	bool SetBufferFlag(uint64_t SequenceNumber, uint32_t Flags);
 

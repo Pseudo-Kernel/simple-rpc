@@ -31,7 +31,7 @@ IOCPConnection::~IOCPConnection()
 {
 }
 
-IOCPResultCode IOCPConnection::Send(uint8_t *Buffer, size_t Size, size_t *SizeQueued)
+IOCPResultCode IOCPConnection::Send(uint8_t *Buffer, uint32_t Size, uint32_t *SizeQueued)
 {
 	std::lock_guard<decltype(SendBufferMutex_)> Lock(SendBufferMutex_);
 	uint64_t SequenceId = SendSequenceNumber_;
@@ -138,6 +138,10 @@ IOCPResultCode IOCPConnection::SendCompletion(IOCP_OVERLAPPED_EXTENSION *Overlap
 		Assert(Buffer != nullptr);
 		Assert(HasOverlappedIoCompleted(&Buffer->OverlappedExtension()->Overlapped));
 
+		const_cast<IODispatchHandler *>(Dispatch_)->SendComplete(
+			reinterpret_cast<uint8_t *>(OverlappedExtension->Buffer.buf),
+			OverlappedExtension->Buffer.len);
+
 		// 
 		// 3. Release sent bytes from send ring buffer.
 		// 
@@ -166,7 +170,9 @@ IOCPResultCode IOCPConnection::SendCompletion(IOCP_OVERLAPPED_EXTENSION *Overlap
 	{
 		// Split the buffer because buffer is not contiguous
 
-		uint32_t RemainingCountWraparound = SendBuffer_.GetBufferEndPointer() - SendBuffer_.GetReadPointer();
+		ptrdiff_t Difference = SendBuffer_.GetBufferEndPointer() - SendBuffer_.GetReadPointer();
+		Assert(!(Difference & 0xffffffff00000000ull));
+		uint32_t RemainingCountWraparound = static_cast<uint32_t>(Difference);
 		uint32_t ReadableCount = SendBuffer_.GetReadableCount();
 
 		auto SplitList = {
@@ -313,7 +319,9 @@ IOCPResultCode IOCPConnection::ReceiveCompletion(IOCP_OVERLAPPED_EXTENSION *Over
 	{
 		// Split the buffer because buffer is not contiguous
 
-		uint32_t RemainingCountWraparound = RecvBuffer_.GetBufferEndPointer() - RecvBuffer_.GetReadPointer();
+		ptrdiff_t Difference = SendBuffer_.GetBufferEndPointer() - SendBuffer_.GetReadPointer();
+		Assert(!(Difference & 0xffffffff00000000ull));
+		uint32_t RemainingCountWraparound = static_cast<uint32_t>(Difference);
 		uint32_t ReadableCount = RecvBuffer_.GetReadableCount();
 
 		auto SplitList = {

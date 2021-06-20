@@ -36,6 +36,9 @@
     <ClCompile Include="IOCPConnection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SRPCFrameHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IOCPConnectionManager.h">
@@ -53,10 +56,22 @@
     <ClInclude Include="TCPListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ProtocolInterface.h">
+    <ClInclude Include="IOCPConnection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IOCPConnection.h">
+    <ClInclude Include="IODispatchHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IOCPBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SRPCBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SRPCFrameHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadPool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

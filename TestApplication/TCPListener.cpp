@@ -39,7 +39,7 @@ bool TCPListener::BeginListen(int Port)
 		return false;
 	}
 
-	if (bind(Socket, AddrInfo->ai_addr, AddrInfo->ai_addrlen) == SOCKET_ERROR)
+	if (bind(Socket, AddrInfo->ai_addr, static_cast<int>(AddrInfo->ai_addrlen)) == SOCKET_ERROR)
 	{
 		closesocket(Socket);
 		freeaddrinfo(AddrInfo);

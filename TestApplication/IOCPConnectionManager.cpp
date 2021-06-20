@@ -31,7 +31,7 @@ bool IOCPConnectionManager::Initialize()
 		SYSTEM_INFO SystemInfo{};
 		GetSystemInfo(&SystemInfo);
 		WorkersCount_ = SystemInfo.dwNumberOfProcessors;
-		Assert(WorkersCount_);
+		Assert(WorkersCount_ != 0);
 	}
 
 	IoCompletionPort_ = CreateIoCompletionPort(INVALID_HANDLE_VALUE, nullptr, 0, WorkersCount_);

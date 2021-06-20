@@ -11,7 +11,7 @@ IOCPBufferList::~IOCPBufferList()
 {
 }
 
-const IOCPBuffer *IOCPBufferList::Add(uint64_t SequenceNumber, uint8_t* Buffer, size_t Size)
+const IOCPBuffer *IOCPBufferList::Add(uint64_t SequenceNumber, uint8_t* Buffer, uint32_t Size)
 {
 	auto ResultPair = BufferMap_.try_emplace(SequenceNumber, 
 		std::make_unique<IOCPBuffer>(Buffer, Size, Type_, SequenceNumber));
@@ -22,7 +22,7 @@ const IOCPBuffer *IOCPBufferList::Add(uint64_t SequenceNumber, uint8_t* Buffer, 
 	return nullptr;
 }
 
-const IOCPBuffer *IOCPBufferList::Add(uint64_t SequenceNumber, uint8_t* Buffer, size_t Size, IOCPBuffer::BufferDelete BufferDeleter)
+const IOCPBuffer *IOCPBufferList::Add(uint64_t SequenceNumber, uint8_t* Buffer, uint32_t Size, IOCPBuffer::BufferDelete BufferDeleter)
 {
 	auto ResultPair = BufferMap_.try_emplace(SequenceNumber, 
 		std::make_unique<IOCPBuffer>(Buffer, Size, Type_, SequenceNumber, BufferDeleter));
@@ -84,7 +84,9 @@ std::unique_ptr<IOCPBuffer> IOCPBufferList::Remove(uint64_t SequenceNumber)
 
 uint32_t IOCPBufferList::Count()
 {
-	return BufferMap_.size();
+	size_t Size = BufferMap_.size();
+	Assert(!(Size & 0xffffffff00000000ull));
+	return static_cast<uint32_t>(Size);
 }
 
 std::map<uint64_t, std::unique_ptr<IOCPBuffer>>::const_iterator IOCPBufferList::begin() const

@@ -10,12 +10,12 @@ IOCPBuffer::IOCPBuffer() noexcept :
 {
 }
 
-IOCPBuffer::IOCPBuffer(uint8_t * Buffer, size_t Size, OperationType Type, uint64_t SequenceNumber) noexcept :
+IOCPBuffer::IOCPBuffer(uint8_t * Buffer, uint32_t Size, OperationType Type, uint64_t SequenceNumber) noexcept :
 	IOCPBuffer(Buffer, Size, Type, SequenceNumber, [](auto p) { delete p; })
 {
 }
 
-IOCPBuffer::IOCPBuffer(uint8_t * Buffer, size_t Size, OperationType Type, uint64_t SequenceNumber, BufferDelete Delete) noexcept :
+IOCPBuffer::IOCPBuffer(uint8_t * Buffer, uint32_t Size, OperationType Type, uint64_t SequenceNumber, BufferDelete Delete) noexcept :
 	OverlappedExtension_{},
 	Delete_(Delete),
 	Initialized_(true)
@@ -89,7 +89,7 @@ uint8_t * IOCPBuffer::Pointer() const noexcept
 	return nullptr;
 }
 
-size_t IOCPBuffer::Size() const noexcept
+uint32_t IOCPBuffer::Size() const noexcept
 {
 	if (Initialized_)
 		return OverlappedExtension_.Buffer.len;

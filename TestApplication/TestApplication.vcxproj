@@ -148,16 +148,21 @@
     <ClCompile Include="IOCPConnectionManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RingBuffer.cpp" />
+    <ClCompile Include="SRPCFrameHandler.cpp" />
     <ClCompile Include="TCPListener.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="IOCPBase.h" />
     <ClInclude Include="IOCPBuffer.h" />
     <ClInclude Include="IOCPBufferList.h" />
     <ClInclude Include="IOCPConnection.h" />
     <ClInclude Include="IOCPConnectionManager.h" />
-    <ClInclude Include="ProtocolInterface.h" />
+    <ClInclude Include="IODispatchHandler.h" />
     <ClInclude Include="RingBuffer.h" />
+    <ClInclude Include="SRPCFrameHandler.h" />
+    <ClInclude Include="SRPCBase.h" />
     <ClInclude Include="TCPListener.h" />
+    <ClInclude Include="ThreadPool.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
