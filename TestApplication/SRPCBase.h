@@ -9,6 +9,7 @@
 #include <thread>
 #include <mutex>
 #include <atomic>
+#include <array>
 //nclude <shared_mutex>
 
 #include <queue>
