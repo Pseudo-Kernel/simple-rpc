@@ -2,6 +2,7 @@
 
 #include "SRPCBase.h"
 #include "ThreadPool.h"
+#include "ByteStream.h"
 
 namespace SRPC
 {
@@ -134,10 +135,10 @@ enum class RpcTypeId : uint16_t
 
 	// User-defined types (UDT) [0x80..0xef]
 	UDT_START = 0x80,
+	PARAM_LIST = UDT_START,	// Special type. Parameter list for function call
+
 	UDT_END = 0xef,
 
-	// Special type. Parameter list for function call
-	PARAM_LIST = 0xff,
 };
 
 enum RpcTypeAttributes : uint8_t
